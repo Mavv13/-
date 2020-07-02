@@ -74,7 +74,7 @@ def hello_world():
 
 @app.route('/api/table', methods=['GET'])
 def get_table():
-    return json.dumps(str(get_data()))
+    return get_data()
 
 @app.route('/api/table', methods=['POST'])
 def update_table():
@@ -90,7 +90,7 @@ def update_table():
                     on conflict (title) do update set data='{}' """.format(cols, vals, vals)
             cursor.execute(req)
     conn.commit()
-    return json.dumps(str(get_data()))
+    return get_data()
 
 
 if __name__ == '__main__':
