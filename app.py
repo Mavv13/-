@@ -54,7 +54,7 @@ def make_matrix(get_list):
     res.extend(temp)
 
     for elem, replacement in zip(index_list, sorted_list):
-        res[int(elem[1])-1][make_index(elem[0])-1] = {'value': str(replacement[1])}
+        res[int(elem[1])-1][make_index(elem[0])-1]['value'] = str(replacement[1])
 
     return json.dumps(res)
 
