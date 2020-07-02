@@ -48,7 +48,7 @@ def make_matrix(get_list):
     max_letter = index[0]
     max_col = make_index(max_letter)
 
-    temp = [[{'key': make_excel(count+1), 'value': ''} for count in range(max_col)]for count2 in range(max_row)]
+    temp = [[{'key': ''+make_excel(count+1)+str(count2+1), 'value': ''} for count in range(max_col)]for count2 in range(max_row)]
 
     res = []
     res.extend(temp)
