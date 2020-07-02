@@ -58,6 +58,13 @@ def make_matrix(get_list):
 
     return json.dumps(res)
 
+def get_data():
+    cursor.execute("""DELETE FROM excel WHERE title = ''""")
+    cursor.execute("""SELECT * FROM excel""")
+    res = make_matrix(cursor.fetchall())
+    conn.commit()
+    return res
+
 
 @app.route('/')
 def hello_world():
@@ -66,12 +73,7 @@ def hello_world():
 
 @app.route('/api/table', methods=['GET'])
 def get_table():
-    cursor.execute("""DELETE FROM excel WHERE title = ''""")
-    cursor.execute("""SELECT * FROM excel""")
-    res = make_matrix(cursor.fetchall())
-    conn.commit()
-    return str(res)
-
+    return json.dumps(get_data())
 
 @app.route('/api/table', methods=['POST'])
 def update_table():
@@ -87,7 +89,7 @@ def update_table():
                     on conflict (title) do update set data='{}' """.format(cols, vals, vals)
             cursor.execute(req)
     conn.commit()
-    return json.dumps(vals)
+    return json.dumps(get_data())
 
 
 if __name__ == '__main__':
