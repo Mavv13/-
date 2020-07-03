@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import request
+from flask_cors import CORS
 import re
 import os
 import string
@@ -16,6 +17,7 @@ cursor.execute("CREATE TABLE IF NOT EXISTS excel("
                "data TEXT)")
 
 app = Flask(__name__)
+CORS(app)
 
 
 def make_index(col):
