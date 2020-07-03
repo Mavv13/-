@@ -105,7 +105,7 @@ def update_length():
     content = request.json
     height = content['height']
     width = content['width']
-    update_cell(str(make_excel(width)+str(height)), ' ')
+    update_cell(str(make_excel(width)+str(height)), str(''))
     return get_data()
 
 
