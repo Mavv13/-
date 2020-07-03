@@ -69,6 +69,15 @@ def get_data():
     return res
 
 
+def update_cell(cols, vals):
+    temp = re.compile("([A-Z]+)([0-9]+)")
+    if temp.match(cols):
+        req = """insert into excel values ('{}','{}')
+                    on conflict (title) do update set data='{}' """.format(cols, vals, vals)
+        cursor.execute(req)
+    conn.commit()
+
+
 @app.route('/')
 def hello_world():
     return 'Hello World!'
@@ -78,6 +87,7 @@ def hello_world():
 def get_table():
     return get_data()
 
+
 @app.route('/api/table', methods=['POST'])
 def update_table():
     content = request.json
@@ -86,12 +96,16 @@ def update_table():
     for key in content:
         cols = str(key)
         vals = str(content[key])
-        temp = re.compile("([A-Z]+)([0-9]+)")
-        if temp.match(cols):
-            req = """insert into excel values ('{}','{}')
-                    on conflict (title) do update set data='{}' """.format(cols, vals, vals)
-            cursor.execute(req)
-    conn.commit()
+        update_cell(cols, vals)
+    return get_data()
+
+
+@app.route('/api/length', methods=['POST'])
+def update_length():
+    content = request.json
+    height = content['height']
+    width = content['width']
+    update_cell(str(make_excel(width)+height), '')
     return get_data()
 
 
